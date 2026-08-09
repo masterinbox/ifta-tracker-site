@@ -105,6 +105,22 @@ section.tight { padding: 40px 0; }
 .dark .ledger-table td:last-child { color: #fff; }
 .dark .ledger-table td { border-bottom-color: rgba(255,255,255,0.22); }
 
+/* Quote wall. These are real posts by real drivers about the paperwork,
+   quoted short and linked back. Nobody here endorsed this app, and the
+   markup must never imply they did. */
+.quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 14px; margin-top: 26px; }
+.quotes figure {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r, 16px);
+  padding: 18px 20px 14px;
+}
+.quotes blockquote { font-size: 18px; line-height: 1.45; font-weight: 600; }
+.quotes figcaption { margin-top: 10px; font-size: 13px; color: var(--ink2); }
+.quotes figcaption a { color: var(--ink2); }
+.dark .quotes figure { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); }
+.dark .quotes blockquote { color: #fff; }
+.dark .quotes figcaption, .dark .quotes figcaption a { color: #DCE9E0; }
+.source-note { font-size: 13px; color: var(--ink2); margin-top: 16px; }
+
 .shots { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
 .shots img {
   width: min(270px, 80vw); border-radius: 24px; border: 1px solid var(--rule);
