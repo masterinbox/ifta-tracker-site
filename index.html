@@ -96,9 +96,9 @@
 <!-- SOCIAL PROOF: THE PROBLEM, IN THEIR WORDS -->
 <section class="rule-top">
   <div class="wrap">
-    <h2>You are not the only one.</h2>
-    <p>Real posts from drivers, about the paperwork. Not about this app. Nobody below has
-    ever heard of us.</p>
+    <h2>Every one of these was avoidable.</h2>
+    <p>Real posts from real drivers. Not one of them had a ledger writing itself in the
+    background. That is the entire difference between their quarter and yours.</p>
 
     <div class="quotes">
       <figure>
@@ -132,6 +132,12 @@
       </figure>
     </div>
 
+    <div class="card" style="margin-top:22px">
+      <p><strong>Not one of these guys is lazy. They're driving.</strong> The paperwork
+      loses because it's competing with 11 hours behind the wheel, and it always will.
+      The only thing that beats that is a record that writes itself while you sleep.</p>
+    </div>
+
     <p class="source-note">Quoted short and linked back to the original. These drivers are
     describing the problem, not endorsing this app.</p>
   </div>
@@ -141,19 +147,32 @@
 <section class="dark" id="math">
   <div class="wrap">
     <h2>Do the math on your own truck.</h2>
-    <p>Say you run OTR and you're out 15 nights a month. It isn't complicated:</p>
-    <div class="card">
-      <table class="ledger-table">
-        <tr><td>15 nights × $64</td><td>$960 / month</td></tr>
-        <tr><td>× 12 months</td><td>$11,520 / year</td></tr>
-        <tr><td>One week you forgot to write down</td><td>−$320 to −$448</td></tr>
-      </table>
-      <p style="font-size:15px">Potential deductions at the current transportation-worker
-      rate. What it saves you depends on your bracket, and that's between you and your tax
-      guy. Our job is making sure the record exists.</p>
+    <p>Drag it to your number. Not an average, not a case study. Yours.</p>
+
+    <div class="card calc">
+      <div class="calc-head">
+        <label for="nights">Nights away from home, per month</label>
+        <span class="calc-nights" id="nightsOut">15</span>
+      </div>
+      <input type="range" id="nights" min="4" max="26" step="1" value="15"
+             aria-describedby="calcYearLabel">
+      <div class="calc-scale"><span>4</span><span>26</span></div>
+
+      <div class="calc-out">
+        <div class="calc-year" id="calcYear">$11,520</div>
+        <div class="calc-label" id="calcYearLabel">a year in potential deductions,
+          at <span id="calcNights2">15</span> nights × $64 × 12</div>
+        <div class="calc-multiple" id="calcMultiple">That's 115× what the app costs.</div>
+      </div>
+
+      <p style="font-size:15px;margin-top:20px">Potential deductions at the current
+      transportation-worker rate. What it saves you depends on your bracket, and that's
+      between you and your tax guy. Our job is making sure the record exists.</p>
     </div>
-    <p style="margin-top:18px">A year of IFTA Tracker costs less than <strong>two forgotten
-    nights</strong>.</p>
+
+    <p style="margin-top:18px">Forget one week and you just threw away
+    <strong id="calcWeek">$320</strong>. A whole year of IFTA Tracker costs less than
+    <strong>two forgotten nights</strong>.</p>
   </div>
 </section>
 
@@ -262,9 +281,13 @@
     <p class="sub">Five entries free. No card, no email, no trial countdown running while
     you're sleeping. Record a couple of real road days and a real receipt, and decide with
     your own numbers in front of you.</p>
-    <p class="big-money" style="margin-top:26px">$99.99<span style="font-size:24px;font-weight:600">/year</span></p>
-    <p class="sub">That's $8.33 a month. Or $14.99 month to month. Or $399.99 once and
-    never again.</p>
+    <p class="big-money price-lockup" style="margin-top:26px">
+      <span>$99</span><span class="price-cents">.99</span><span class="price-term">/year</span>
+    </p>
+    <p class="sub" id="priceCompare">Against <strong>$11,520</strong> a year you're trying
+    not to lose. That's <strong>115×</strong> the price.</p>
+    <p class="sub" style="margin-top:10px">$8.33 a month. Or $14.99 month to month.
+    Or $399.99 once and never again.</p>
     <p style="margin-top:18px">If you go annual you get 7 days free on top, and we remind
     you on day 5 before anything is charged. Cancel takes 10 seconds inside the app. And if
     you ever leave, <strong>your records export anyway</strong>. We don't hold ledgers
@@ -326,5 +349,39 @@
   </div>
 </footer>
 
+<script>
+// One slider drives every number on the page. $64 is the transportation
+// worker rate ($80 M&IE, 80% deductible) and 99.99 is the real annual
+// price, so the multiple we quote is the honest one.
+(function () {
+  var NIGHT = 64, YEAR_PRICE = 99.99;
+  var el = function (id) { return document.getElementById(id); };
+  var slider = el('nights');
+  if (!slider) return;
+  var usd = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
+
+  function render() {
+    var nights = parseInt(slider.value, 10);
+    var year = nights * NIGHT * 12;
+    el('nightsOut').textContent = nights;
+    el('calcNights2').textContent = nights;
+    el('calcYear').textContent = usd(year);
+    el('calcMultiple').textContent =
+      "That's " + Math.round(year / YEAR_PRICE) + '× what the app costs.';
+    // A forgotten week is however many nights he was actually out that
+    // week: his monthly nights pro-rated over 30 days, capped at 7.
+    var weekNights = Math.max(1, Math.min(7, Math.round(nights * 7 / 30)));
+    el('calcWeek').textContent = usd(weekNights * NIGHT);
+    var cmp = el('priceCompare');
+    if (cmp) {
+      cmp.innerHTML = 'Against <strong>' + usd(year) + '</strong> a year you\'re trying ' +
+        'not to lose. That\'s <strong>' + Math.round(year / YEAR_PRICE) + '×</strong> the price.';
+    }
+    slider.setAttribute('aria-valuetext', nights + ' nights a month, ' + usd(year) + ' a year');
+  }
+  slider.addEventListener('input', render);
+  render();
+})();
+</script>
 </body>
 </html>

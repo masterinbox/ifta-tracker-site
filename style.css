@@ -121,6 +121,39 @@ section.tight { padding: 40px 0; }
 .dark .quotes figcaption, .dark .quotes figcaption a { color: #DCE9E0; }
 .source-note { font-size: 13px; color: var(--ink2); margin-top: 16px; }
 
+/* Slider calculator. Everything is driven off one range input so the
+   number a driver lands on is his own, not our average. */
+.calc { margin-top: 24px; }
+.calc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.calc-head label { font-size: 17px; font-weight: 600; }
+.calc-nights { font-size: 34px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.calc input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; margin: 16px 0 4px;
+  height: 8px; border-radius: 999px; background: rgba(255,255,255,0.28); outline: none;
+}
+.calc input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 34px; height: 34px;
+  border-radius: 50%; background: #fff; border: 3px solid var(--money);
+  cursor: pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+.calc input[type="range"]::-moz-range-thumb {
+  width: 34px; height: 34px; border-radius: 50%; background: #fff;
+  border: 3px solid var(--money); cursor: pointer;
+}
+.calc input[type="range"]:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.calc-scale { display: flex; justify-content: space-between; font-size: 13px; opacity: 0.8; }
+.calc-out { margin-top: 22px; text-align: center; }
+.calc-year { font-size: clamp(46px, 10vw, 76px); font-weight: 900; line-height: 1;
+  font-variant-numeric: tabular-nums; letter-spacing: -1px; }
+.calc-label { font-size: 15px; margin-top: 8px; opacity: 0.9; }
+.calc-multiple { margin-top: 16px; font-size: 20px; font-weight: 700; }
+
+/* Price: the eye lands on the dollars, the cents stay legible because the
+   charge really is $99.99 and the page must not imply otherwise. */
+.price-lockup { display: inline-flex; align-items: flex-start; justify-content: center; }
+.price-cents { font-size: 0.42em; font-weight: 800; margin-top: 0.42em; }
+.price-term { font-size: 0.28em; font-weight: 700; margin-top: 1.3em; margin-left: 6px; opacity: 0.9; }
+
 .shots { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
 .shots figure { width: min(258px, 78vw); }
 .shots img {
