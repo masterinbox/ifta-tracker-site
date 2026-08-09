@@ -8,7 +8,9 @@
   --money: #176B4A;
   --money-dark: #0F4D34;
   --amber: #E8A13D;
-  --likely: #A87A0B;
+  /* Darkened from #A87A0B: it only ever paints small text (eyebrow, the
+     LIKELY badge) and failed WCAG AA on both paper and the amber fill. */
+  --likely: #7E5B07;
   --likely-fill: #F6EAC9;
   --alert: #B3261E;
 }
@@ -92,6 +94,16 @@ section.tight { padding: 40px 0; }
 .dark .sub, .dark p { color: #DCE9E0; }
 .dark .card { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); }
 .dark .card p, .dark .card li { color: #ECF3EE; }
+/* Anything painted --money is invisible on the green ground. Flip the
+   accent text to white inside dark sections and lighten the rules, so
+   these never need an inline colour patch at the call site. */
+.dark .money,
+.dark .big-money,
+.dark .eyebrow,
+.dark strong,
+.dark .ledger-table td,
+.dark .ledger-table td:last-child { color: #fff; }
+.dark .ledger-table td { border-bottom-color: rgba(255,255,255,0.22); }
 
 .shots { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
 .shots img {
